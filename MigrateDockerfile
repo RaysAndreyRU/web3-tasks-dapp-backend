@@ -1,0 +1,11 @@
+FROM node:lts AS deps
+WORKDIR /app
+COPY package*.json .
+RUN npm ci
+
+FROM node:lts
+WORKDIR /app
+COPY package*.json .
+COPY prisma/ prisma/
+COPY --from=deps /app/node_modules/ node_modules/
+CMD ["npm", "run", "migrate:deploy:dev"]

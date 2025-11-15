@@ -1,0 +1,23 @@
+version: '3.8'
+
+volumes:
+  postgres:
+
+networks:
+  dbs:
+    attachable: true
+
+services:
+  postgres:
+    image: postgres:14
+    restart: always
+    environment:
+      POSTGRES_DB: bountyboard
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    networks:
+      - dbs

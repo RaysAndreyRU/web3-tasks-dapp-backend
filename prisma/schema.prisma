@@ -1,0 +1,49 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum TaskType {
+  TELEGRAM
+}
+
+model User {
+  id            String   @id
+  walletAddress String   @unique
+  score         Int      @default(0)
+  createdAt     DateTime @default(now())
+
+  tasks UserTask[]
+}
+
+model Task {
+  id           Int      @id @default(autoincrement())
+  title        String
+  description  String
+  rewardPoints Int
+  createdAt    DateTime @default(now())
+
+  type           TaskType @default(TELEGRAM)
+  telegramChatId String?
+
+  userTasks UserTask[]
+}
+
+model UserTask {
+  id Int @id @default(autoincrement())
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  task   Task @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  taskId Int
+
+  verified   Boolean   @default(false)
+  verifiedAt DateTime?
+
+  @@unique([userId, taskId], name: "userId_taskId")
+}

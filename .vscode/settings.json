@@ -1,0 +1,10 @@
+{
+    "files.exclude": {
+        "**/*.spec.ts": true,
+        "**/.github": true
+    },
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": "explicit"
+    },
+    "typescript.preferences.importModuleSpecifier": "relative",
+}
