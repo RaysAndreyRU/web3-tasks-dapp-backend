@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { UserRepository } from './user.repository'
-import { UserScoreDto } from './user-score.dto'
+import { UserScoreDto } from './dto/user-score.dto'
 
 @Injectable()
 export class UserService {
@@ -9,5 +9,10 @@ export class UserService {
     async getUserScore(userId: string): Promise<UserScoreDto> {
         const score = await this.userRepo.getScore(userId)
         return new UserScoreDto({ score })
+    }
+
+    async linkTelegram(userId: string, telegramUserId: string) {
+        const updatedUser = await this.userRepo.linkTelegram(userId, telegramUserId)
+        return updatedUser
     }
 }

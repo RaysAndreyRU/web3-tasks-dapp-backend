@@ -9,13 +9,17 @@ datasource db {
 
 enum TaskType {
   TELEGRAM
+  TWITTER
+  DISCORD
+  CUSTOM
 }
 
 model User {
-  id            String   @id
-  walletAddress String   @unique
-  score         Int      @default(0)
-  createdAt     DateTime @default(now())
+  id             String   @id
+  walletAddress  String   @unique
+  score          Int      @default(0)
+  createdAt      DateTime @default(now())
+  telegramUserId String?
 
   tasks UserTask[]
 }
@@ -27,8 +31,13 @@ model Task {
   rewardPoints Int
   createdAt    DateTime @default(now())
 
-  type           TaskType @default(TELEGRAM)
+  type TaskType @default(TELEGRAM)
+
   telegramChatId String?
+
+  joinUrl  String?
+  slug     String? @unique
+  imageUrl String?
 
   userTasks UserTask[]
 }

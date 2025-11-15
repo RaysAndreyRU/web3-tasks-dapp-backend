@@ -8,58 +8,88 @@ async function main() {
     await prisma.task.deleteMany()
     await prisma.user.deleteMany()
 
-    const users = await Promise.all([
-        prisma.user.create({
-            data: {
-                id: faker.string.uuid(),
-                walletAddress: '0x1234567890abcdef1234567890abcdef12345678'
-            }
-        }),
-        prisma.user.create({
-            data: {
-                id: faker.string.uuid(),
-                walletAddress: '0xabcdefabcdefabcdefabcdefabcdefabcdefabcd'
-            }
-        })
-    ])
-
-    const tasks = await prisma.task.createMany({
+    await prisma.user.createMany({
         data: [
             {
-                title: 'Join Lumia Telegram',
-                description: 'Join the official @LumiaOfficial Telegram channel.',
-                rewardPoints: 50,
-                type: TaskType.TELEGRAM,
-                telegramChatId: '@LumiaOfficial'
+                id: faker.string.uuid(),
+                walletAddress: '0x1111111111111111111111111111111111111111'
             },
             {
-                title: 'Join Web3 Builders Chat',
-                description: 'Become a member of the builders community chat.',
-                rewardPoints: 30,
-                type: TaskType.TELEGRAM,
-                telegramChatId: '@web3builders'
-            },
-            {
-                title: 'Join Test Private Group',
-                description: 'Join a test channel for development.',
-                rewardPoints: 10,
-                type: TaskType.TELEGRAM,
-                telegramChatId: '@my_test_channel'
+                id: faker.string.uuid(),
+                walletAddress: '0x2222222222222222222222222222222222222222'
             }
         ]
     })
-    const allTasks = await prisma.task.findMany()
 
-    for (const task of allTasks) {
-        await prisma.userTask.create({
-            data: {
-                userId: users[0].id,
-                taskId: task.id,
-                verified: faker.datatype.boolean(),
-                verifiedAt: faker.date.past()
+    await prisma.task.createMany({
+        data: [
+            {
+                title: 'Join the Dev Telegram Chat',
+                description: 'Join our developer community chat to get verified.',
+                rewardPoints: 50,
+                type: TaskType.TELEGRAM,
+                telegramChatId: '-5034425280',
+                slug: 'join-dev-chat',
+                joinUrl: 'https://t.me/+dev_chat_link',
+                imageUrl: faker.image.urlPicsumPhotos()
+            },
+
+            {
+                title: 'Join the Announcements Telegram',
+                description: 'Stay updated with the latest Lumia news.',
+                rewardPoints: 30,
+                type: TaskType.TELEGRAM,
+                telegramChatId: '-5034425280',
+                slug: 'join-announcements',
+                joinUrl: 'https://t.me/+announcements_link',
+                imageUrl: faker.image.urlPicsumPhotos()
+            },
+
+            {
+                title: 'Join the Test QA Telegram',
+                description: 'Join QA testing group for early feature previews.',
+                rewardPoints: 40,
+                type: TaskType.TELEGRAM,
+                telegramChatId: '-5034425280',
+                slug: 'join-qa',
+                joinUrl: 'https://t.me/+qa_chat_link',
+                imageUrl: faker.image.urlPicsumPhotos()
+            },
+
+            {
+                title: 'Join the Web3 Community Telegram',
+                description: 'Participate in vibrant Web3 discussions with the community.',
+                rewardPoints: 20,
+                type: TaskType.TELEGRAM,
+                telegramChatId: '-5034425280',
+                slug: 'join-web3',
+                joinUrl: 'https://t.me/+web3_chat_link',
+                imageUrl: faker.image.urlPicsumPhotos()
+            },
+
+            {
+                title: 'Join the Builders Telegram',
+                description: 'Meet other builders, share your DApps and ideas.',
+                rewardPoints: 60,
+                type: TaskType.TELEGRAM,
+                telegramChatId: '-5034425280',
+                slug: 'join-builders',
+                joinUrl: 'https://t.me/+builders_chat_link',
+                imageUrl: faker.image.urlPicsumPhotos()
+            },
+
+            {
+                title: 'Join the Research Telegram',
+                description: 'Access advanced articles and protocol updates.',
+                rewardPoints: 25,
+                type: TaskType.TELEGRAM,
+                telegramChatId: '-5034425280',
+                slug: 'join-research',
+                joinUrl: 'https://t.me/+research_chat_link',
+                imageUrl: faker.image.urlPicsumPhotos()
             }
-        })
-    }
+        ]
+    })
 }
 
 main()

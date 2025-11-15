@@ -1,9 +1,4 @@
-import {
-    CanActivate,
-    ExecutionContext,
-    Injectable,
-    UnauthorizedException,
-} from '@nestjs/common'
+import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common'
 import { PrismaService } from 'nestjs-prisma'
 import { JwtService } from '@nestjs/jwt'
 
@@ -11,14 +6,13 @@ import { JwtService } from '@nestjs/jwt'
 export class JwtSessionGuard implements CanActivate {
     constructor(
         private readonly prisma: PrismaService,
-        private readonly jwt: JwtService,
+        private readonly jwt: JwtService
     ) {}
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
         const req = context.switchToHttp().getRequest()
 
-        const authHeader =
-            req.headers['authorization'] || req.headers['Authorization']
+        const authHeader = req.headers['authorization'] || req.headers['Authorization']
 
         if (!authHeader || typeof authHeader !== 'string') {
             throw new UnauthorizedException('Missing Authorization header')
@@ -37,7 +31,7 @@ export class JwtSessionGuard implements CanActivate {
             }
 
             const user = await this.prisma.user.findUnique({
-                where: { id: payload.sub },
+                where: { id: payload.sub }
             })
 
             if (!user) {
@@ -46,7 +40,7 @@ export class JwtSessionGuard implements CanActivate {
 
             req.user = {
                 id: user.id,
-                walletAddress: user.walletAddress,
+                walletAddress: user.walletAddress
             }
 
             return true

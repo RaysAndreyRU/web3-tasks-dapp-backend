@@ -2,7 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common'
 import { PrismaService } from 'nestjs-prisma'
 import { JwtService } from '@nestjs/jwt'
 import { verifyLumiaToken } from '../utils/lumia'
-import { UserDto } from './  dto/user.dto'
+import { UserDto } from '../user/dto/user.dto'
 import { AuthDataDto } from './  dto/auth-data.dto'
 import { mapResponse } from '../utils/common/map.response'
 import {AuthVerifyResponseDto} from "./  dto/auth-verify-response.dto";

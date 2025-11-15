@@ -7,6 +7,7 @@ import { TelegramVerifierService } from '../verifiers/telegram-verifier.service'
 import { VerifyTaskDto } from './dto/verify-task.dto'
 import { VerifyTaskResponseDto } from './dto/verify-task-response.dto'
 import { PagedTasksDto } from './dto/paged-tasks.dto'
+import { CreateTaskDto } from './dto/create-task.dto'
 
 @Injectable()
 export class TasksService {
@@ -20,6 +21,8 @@ export class TasksService {
     async getTasksForUser(userId: string, skip = 0, take = 10): Promise<PagedTasksDto> {
         const { data, total } = await this.repo.findAllWithUserStatus(userId, skip, take)
 
+        console.log(data)
+
         return {
             items: data.map((task) =>
                 mapResponse(TaskDto, {
@@ -32,6 +35,19 @@ export class TasksService {
             skip,
             take
         }
+    }
+
+    async createTask(dto: CreateTaskDto) {
+        return this.repo.create({
+            title: dto.title,
+            description: dto.description,
+            rewardPoints: dto.rewardPoints,
+            type: dto.type,
+            telegramChatId: dto.telegramChatId ?? null,
+            slug: dto.slug ?? null,
+            joinUrl: dto.joinUrl ?? null,
+            imageUrl: dto.imageUrl ?? null
+        })
     }
 
     async verifyTaskForUser(userId: string, taskId: number, dto: VerifyTaskDto): Promise<VerifyTaskResponseDto> {

@@ -1,11 +1,11 @@
-import {Body, Controller, Get, Post, UseGuards} from '@nestjs/common'
-import {ApiBearerAuth, ApiOperation, ApiResponse, ApiTags} from '@nestjs/swagger'
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common'
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { AuthService } from './auth.service'
-import { UserDto } from './  dto/user.dto'
+import { AuthVerifyResponseDto } from './  dto/auth-verify-response.dto'
 import { AuthDataDto } from './  dto/auth-data.dto'
-import {AuthVerifyResponseDto} from "./  dto/auth-verify-response.dto";
-import {JwtSessionGuard} from "../utils/common/guards/lumia-session.guard";
-import {User} from "../utils/common/ decorators/user.decorator";
+import { JwtSessionGuard } from '../utils/common/guards/lumia-session.guard'
+import { User } from '../utils/common/ decorators/user.decorator'
+import { SessionUserDto } from './  dto/session-user.dto'
 
 @ApiTags('Auth')
 @Controller('api/auth')
@@ -14,9 +14,8 @@ export class AuthController {
 
     @Post('verify-session')
     @ApiOperation({ summary: 'Verify Lumia Passport session token' })
-    @ApiResponse({ status: 200, type: UserDto })
+    @ApiResponse({ status: 200, type: AuthVerifyResponseDto })
     async verifySession(@Body() authData: AuthDataDto): Promise<AuthVerifyResponseDto> {
-        console.log('[AuthController] received Lumia authData:', authData)
         return this.auth.verifySession(authData)
     }
 
@@ -24,10 +23,8 @@ export class AuthController {
     @ApiBearerAuth()
     @UseGuards(JwtSessionGuard)
     @ApiOperation({ summary: 'Get current authenticated user' })
-    @ApiResponse({ status: 200, type: UserDto })
-    async me(@User() user: UserDto): Promise<UserDto> {
+    @ApiResponse({ status: 200, type: SessionUserDto })
+    async me(@User() user: SessionUserDto): Promise<SessionUserDto> {
         return user
     }
-
-
 }

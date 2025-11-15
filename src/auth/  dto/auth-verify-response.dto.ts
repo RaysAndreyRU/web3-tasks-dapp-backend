@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { Type } from 'class-transformer'
-import { UserDto } from './user.dto'
+import { UserDto } from '../../user/dto/user.dto'
 import {BaseDto} from "../../utils/common/base-entity";
 
 export class AuthVerifyResponseDto extends BaseDto<AuthVerifyResponseDto>  {

@@ -9,13 +9,9 @@ export class TasksRepository extends BaseRepository<Task, Prisma.TaskCreateInput
         super(prisma as any, 'task')
     }
 
-    async findAllWithUserStatus(
-        userId: string,
-        skip = 0,
-        take = 10
-    ): Promise<{ data: (Task & { verified: boolean; verifiedAt: Date | null })[]; total: number }> {
+    async findAllWithUserStatus(userId: string, skip = 0, take = 10) {
         const [tasks, total] = await Promise.all([
-            (this.repo as any).findMany({
+            this.repo.findMany({
                 skip,
                 take,
                 orderBy: { id: 'asc' },
@@ -27,10 +23,10 @@ export class TasksRepository extends BaseRepository<Task, Prisma.TaskCreateInput
                     }
                 }
             }),
-            (this.repo as any).count()
+            this.repo.count()
         ])
 
-        const mapped = tasks.map((task: any) => ({
+        const mapped = tasks.map((task) => ({
             ...task,
             verified: task.userTasks[0]?.verified ?? false,
             verifiedAt: task.userTasks[0]?.verifiedAt ?? null

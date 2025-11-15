@@ -31,4 +31,12 @@ export class UserRepository extends BaseRepository<User, Prisma.UserCreateInput,
 
         return user.score
     }
+    async linkTelegram(userId: string, telegramUserId: string) {
+        const updatedUser = await this.prisma.user.update({
+            where: { id: userId },
+            data: { telegramUserId }
+        })
+
+        return updatedUser
+    }
 }

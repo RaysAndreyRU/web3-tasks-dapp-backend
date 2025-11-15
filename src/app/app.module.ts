@@ -3,8 +3,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config'
 import { LoggerModule, Params } from 'nestjs-pino'
 import { PrismaModule, PrismaServiceOptions } from 'nestjs-prisma'
 import { EventEmitterModule } from '@nestjs/event-emitter'
+
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
+
 import { HealthModule } from '../utils/health/health.module'
 import { TasksModule } from '../tasks/tasks.module'
 import { AuthModule } from '../auth/auth.module'
@@ -22,9 +24,12 @@ import { VerifiersModule } from '../verifiers/verifiers.module'
             inject: [ConfigService],
             useFactory: async (configService: ConfigService): Promise<PrismaServiceOptions> => {
                 const databaseUrl = configService.get<string>('DATABASE_URL')
+
                 return {
                     prismaOptions: {
-                        datasources: { db: { url: databaseUrl } }
+                        datasources: {
+                            db: { url: databaseUrl }
+                        }
                     }
                 }
             }
@@ -32,12 +37,26 @@ import { VerifiersModule } from '../verifiers/verifiers.module'
 
         LoggerModule.forRootAsync({
             inject: [ConfigService],
-            useFactory: async (): Promise<Params> => ({
-                pinoHttp: {
-                    level: process.env.NODE_ENV !== 'production' ? 'debug' : 'warn',
-                    transport: process.env.NODE_ENV !== 'production' ? { target: 'pino-pretty' } : undefined
+            useFactory: async (): Promise<Params> => {
+                const isProd = process.env.NODE_ENV === 'production'
+
+                return {
+                    pinoHttp: isProd
+                        ? {
+                              level: 'warn'
+                          }
+                        : {
+                              level: 'debug',
+                              transport: {
+                                  target: 'pino-pretty',
+                                  options: {
+                                      colorize: true,
+                                      singleLine: true
+                                  }
+                              }
+                          }
                 }
-            })
+            }
         }),
 
         EventEmitterModule.forRoot(),
@@ -47,6 +66,7 @@ import { VerifiersModule } from '../verifiers/verifiers.module'
         HealthModule,
         AuthModule
     ],
+
     controllers: [AppController],
     providers: [AppService]
 })

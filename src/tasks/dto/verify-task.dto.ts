@@ -9,6 +9,7 @@ export class VerifyTaskDto extends BaseDto<VerifyTaskDto> {
         example: '123456789',
         description: 'Telegram user ID of the user performing the verification'
     })
+    @Expose()
     @IsString()
     @IsNotEmpty()
     telegramUserId: string
