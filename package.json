@@ -26,6 +26,7 @@
     "prisma:seed": "npx prisma db seed"
   },
   "dependencies": {
+    "pino-pretty": "^13.1.2",
     "@lumiapassport/core": "^1.4.2",
     "@nestjs/common": "^11.0.0",
     "@nestjs/config": "^4.0.0",
@@ -60,7 +61,6 @@
     "eslint-config-prettier": "^10.1.2",
     "eslint-plugin-prettier": "^5.4.0",
     "jest": "^29.7.0",
-    "pino-pretty": "^13.1.2",
     "prettier": "^3.5.3",
     "prisma": "^6.16.2",
     "source-map-support": "^0.5.21",
