@@ -3,6 +3,9 @@ import { faker } from '@faker-js/faker'
 
 const prisma = new PrismaClient()
 
+const IMAGE =
+    'https://docs.lumia.org/~gitbook/image?url=https%3A%2F%2F2350053608-files.gitbook.io%2F%7E%2Ffiles%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252F9xpHYszlcNFP3MXUQBaJ%252Ficon%252FBDmLzn8yppQZB9K9xw2O%252FLUMIA-Avatar.png%3Falt%3Dmedia%26token%3D61e41c4c-36ae-4e13-b4bf-938ea2336569&width=32&dpr=2&quality=100&sign=388901a1&sv=2'
+
 async function main() {
     await prisma.userTask.deleteMany()
     await prisma.task.deleteMany()
@@ -21,6 +24,8 @@ async function main() {
         ]
     })
 
+    const joinUrl = 'https://t.me/lumia_community'
+
     await prisma.task.createMany({
         data: [
             {
@@ -30,8 +35,8 @@ async function main() {
                 type: TaskType.TELEGRAM,
                 telegramChatId: '-5034425280',
                 slug: 'join-dev-chat',
-                joinUrl: 'https://t.me/+dev_chat_link',
-                imageUrl: faker.image.urlPicsumPhotos()
+                joinUrl,
+                imageUrl: IMAGE
             },
 
             {
@@ -41,8 +46,8 @@ async function main() {
                 type: TaskType.TELEGRAM,
                 telegramChatId: '-5034425280',
                 slug: 'join-announcements',
-                joinUrl: 'https://t.me/+announcements_link',
-                imageUrl: faker.image.urlPicsumPhotos()
+                joinUrl,
+                imageUrl: IMAGE
             },
 
             {
@@ -52,8 +57,8 @@ async function main() {
                 type: TaskType.TELEGRAM,
                 telegramChatId: '-5034425280',
                 slug: 'join-qa',
-                joinUrl: 'https://t.me/+qa_chat_link',
-                imageUrl: faker.image.urlPicsumPhotos()
+                joinUrl,
+                imageUrl: IMAGE
             },
 
             {
@@ -63,8 +68,8 @@ async function main() {
                 type: TaskType.TELEGRAM,
                 telegramChatId: '-5034425280',
                 slug: 'join-web3',
-                joinUrl: 'https://t.me/+web3_chat_link',
-                imageUrl: faker.image.urlPicsumPhotos()
+                joinUrl,
+                imageUrl: IMAGE
             },
 
             {
@@ -74,8 +79,8 @@ async function main() {
                 type: TaskType.TELEGRAM,
                 telegramChatId: '-5034425280',
                 slug: 'join-builders',
-                joinUrl: 'https://t.me/+builders_chat_link',
-                imageUrl: faker.image.urlPicsumPhotos()
+                joinUrl,
+                imageUrl: IMAGE
             },
 
             {
@@ -85,8 +90,8 @@ async function main() {
                 type: TaskType.TELEGRAM,
                 telegramChatId: '-5034425280',
                 slug: 'join-research',
-                joinUrl: 'https://t.me/+research_chat_link',
-                imageUrl: faker.image.urlPicsumPhotos()
+                joinUrl,
+                imageUrl: IMAGE
             }
         ]
     })
